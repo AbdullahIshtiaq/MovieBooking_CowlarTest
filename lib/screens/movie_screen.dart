@@ -44,6 +44,17 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     super.initState();
   }
 
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
   void getTrailerURL() {
     APIService.getMovieVideos(widget.movieId).then((response) => {
           if (response != null)
@@ -82,10 +93,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           });
           return false;
         } else {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-          ]);
           return true;
         }
       },
@@ -261,6 +268,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                     setState(() {
                                       if (orientation != Orientation.portrait) {
                                         SystemChrome.setPreferredOrientations([
+                                          DeviceOrientation.landscapeRight,
+                                          DeviceOrientation.landscapeLeft,
                                           DeviceOrientation.portraitUp,
                                           DeviceOrientation.portraitDown,
                                         ]);

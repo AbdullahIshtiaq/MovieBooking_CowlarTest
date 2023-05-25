@@ -21,6 +21,7 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   final imageBaseURl = "https://image.tmdb.org/t/p/original";
+  final youtubeBaseURL = "https://www.youtube.com/watch?v=";
   late YoutubePlayerController _controller;
 
   bool isLoading = false;
@@ -50,9 +51,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               if (response.results.isNotEmpty)
                 {
                   _controller = YoutubePlayerController(
-                    initialVideoId:
-                        YoutubePlayer.convertUrlToId(response.results[0].key)
-                            .toString(),
+                    initialVideoId: YoutubePlayer.convertUrlToId(
+                            youtubeBaseURL + response.results[0].key)
+                        .toString(),
                     flags: const YoutubePlayerFlags(
                       autoPlay: true,
                       mute: false,
@@ -81,6 +82,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           });
           return false;
         } else {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
           return true;
         }
       },
@@ -239,10 +244,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         ],
                       ),
                       (showTrailer)
-                          ? Opacity(
-                              opacity: 0.7,
-                              child: Positioned(
-                                top: 200,
+                          ? Positioned.fill(
+                              child: AnimatedOpacity(
+                                opacity: 0.7,
+                                duration: const Duration(seconds: 1),
                                 child: YoutubePlayer(
                                   controller: _controller,
                                   showVideoProgressIndicator: true,
@@ -420,32 +425,26 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         ],
                       ),
                       (showTrailer)
-                          ? Opacity(
-                              opacity: 0.7,
-                              child: Positioned(
-                                top: 200,
-                                child: YoutubePlayer(
-                                  controller: _controller,
-                                  showVideoProgressIndicator: true,
-                                  progressIndicatorColor: blue,
-                                  progressColors: const ProgressBarColors(
-                                    playedColor: Colors.blue,
-                                    handleColor: blue,
-                                  ),
-                                  onReady: () {},
-                                  onEnded: (data) {
-                                    setState(() {
-                                      if (orientation != Orientation.portrait) {
-                                        SystemChrome.setPreferredOrientations([
-                                          DeviceOrientation.portraitUp,
-                                          DeviceOrientation.portraitDown,
-                                        ]);
-                                      }
-                                      showTrailer = false;
-                                    });
-                                  },
-                                ),
+                          ? YoutubePlayer(
+                              controller: _controller,
+                              showVideoProgressIndicator: true,
+                              progressIndicatorColor: blue,
+                              progressColors: const ProgressBarColors(
+                                playedColor: Colors.blue,
+                                handleColor: blue,
                               ),
+                              onReady: () {},
+                              onEnded: (data) {
+                                setState(() {
+                                  if (orientation != Orientation.portrait) {
+                                    SystemChrome.setPreferredOrientations([
+                                      DeviceOrientation.portraitUp,
+                                      DeviceOrientation.portraitDown,
+                                    ]);
+                                  }
+                                  showTrailer = false;
+                                });
+                              },
                             )
                           : Container(),
                     ],

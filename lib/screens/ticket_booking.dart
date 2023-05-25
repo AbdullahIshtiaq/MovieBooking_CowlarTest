@@ -269,31 +269,29 @@ class _SeatViewState extends State<SeatView> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 10,
-            childAspectRatio: 10,
-            mainAxisSpacing: 10.0,
-          ),
-          itemCount: widget.seatCount,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _seatSelections[index] = !_seatSelections[index];
-                });
-              },
-              child: Icon(
-                Icons.event_seat,
-                size: 12,
-                color: _seatSelections[index] ? Colors.green : Colors.grey,
-              ),
-            );
-          },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 10,
+          childAspectRatio: 10,
+          mainAxisSpacing: 10.0,
         ),
+        itemCount: widget.seatCount,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _seatSelections[index] = !_seatSelections[index];
+              });
+            },
+            child: Icon(
+              Icons.event_seat,
+              size: 12,
+              color: _seatSelections[index] ? Colors.green : Colors.grey,
+            ),
+          );
+        },
       ),
     );
   }

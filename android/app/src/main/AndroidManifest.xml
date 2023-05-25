@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cowlar_entry_test_app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
    <application
         android:label="cowlar_entry_test_app"
         android:name="${applicationName}"

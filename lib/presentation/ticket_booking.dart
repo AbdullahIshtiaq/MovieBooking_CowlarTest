@@ -1,21 +1,15 @@
 import 'package:cowlar_entry_test_app/constants.dart';
-import 'package:cowlar_entry_test_app/screens/movie_screen.dart';
-import 'package:cowlar_entry_test_app/screens/seat_selection_screen.dart';
+import 'package:cowlar_entry_test_app/presentation/movie_screen.dart';
+import 'package:cowlar_entry_test_app/presentation/seat_selection_screen.dart';
 import 'package:flutter/material.dart';
 
-class MovieTicketBookingScreen extends StatefulWidget {
-  const MovieTicketBookingScreen(
+class MovieTicketBookingScreen extends StatelessWidget {
+  MovieTicketBookingScreen(
       {super.key, required this.movieName, required this.releaseDate});
 
   final String movieName;
   final String releaseDate;
 
-  @override
-  State<MovieTicketBookingScreen> createState() =>
-      _MovieTicketBookingScreenState();
-}
-
-class _MovieTicketBookingScreenState extends State<MovieTicketBookingScreen> {
   final List<String> dates = [
     '1 Jan',
     '2 Jan',
@@ -55,14 +49,14 @@ class _MovieTicketBookingScreenState extends State<MovieTicketBookingScreen> {
                       child: Column(
                         children: [
                           Text(
-                            widget.movieName,
+                            movieName,
                             style: const TextStyle(
                               fontSize: 20.0,
                             ),
                           ),
                           const SizedBox(height: 5.0),
                           Text(
-                            widget.releaseDate,
+                            releaseDate,
                             style: const TextStyle(
                               fontSize: 16.0,
                               color: blue,
@@ -105,7 +99,7 @@ class _MovieTicketBookingScreenState extends State<MovieTicketBookingScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => SeatSelectionScreen(
-                        movieName: widget.movieName,
+                        movieName: movieName,
                         theaterName: 'January 1, 2023 | CineTech Hall 1',
                       ),
                     ),
@@ -120,23 +114,18 @@ class _MovieTicketBookingScreenState extends State<MovieTicketBookingScreen> {
   }
 }
 
-class HorizontalDateList extends StatefulWidget {
+class HorizontalDateList extends StatelessWidget {
   const HorizontalDateList({super.key, required this.items});
 
   final List<String> items;
 
-  @override
-  State<HorizontalDateList> createState() => _HorizontalDateListState();
-}
-
-class _HorizontalDateListState extends State<HorizontalDateList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          widget.items.length,
+          items.length,
           (index) => Padding(
             padding: const EdgeInsets.only(right: 5),
             child: GestureDetector(
@@ -152,7 +141,7 @@ class _HorizontalDateListState extends State<HorizontalDateList> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    widget.items[index],
+                    items[index],
                     style: const TextStyle(color: Colors.white, fontSize: 12.0),
                   ),
                 ),
@@ -222,19 +211,19 @@ class CinemaSeatsScreen extends StatelessWidget {
                         ),
                       ),
                       child: Stack(
-                        children: const [
-                          Padding(
+                        children: [
+                          const Padding(
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: CurvedLine(),
                           ),
-                          Align(
+                          const Align(
                               alignment: Alignment.topCenter,
                               child: Padding(
                                 padding: EdgeInsets.only(top: 30),
                                 child: Text("Sreen"),
                               )),
                           Padding(
-                            padding: EdgeInsets.only(top: 50),
+                            padding: const EdgeInsets.only(top: 50),
                             child: SeatView(seatCount: 100),
                           ),
                         ],
@@ -255,16 +244,11 @@ class CinemaSeatsScreen extends StatelessWidget {
   }
 }
 
-class SeatView extends StatefulWidget {
+class SeatView extends StatelessWidget {
   final int seatCount;
 
-  const SeatView({super.key, required this.seatCount});
+  SeatView({super.key, required this.seatCount});
 
-  @override
-  _SeatViewState createState() => _SeatViewState();
-}
-
-class _SeatViewState extends State<SeatView> {
   final List<bool> _seatSelections = List.generate(100, (index) => false);
 
   @override
@@ -277,19 +261,12 @@ class _SeatViewState extends State<SeatView> {
           childAspectRatio: 10,
           mainAxisSpacing: 10.0,
         ),
-        itemCount: widget.seatCount,
+        itemCount: seatCount,
         itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _seatSelections[index] = !_seatSelections[index];
-              });
-            },
-            child: Icon(
-              Icons.event_seat,
-              size: 12,
-              color: _seatSelections[index] ? Colors.green : Colors.grey,
-            ),
+          return Icon(
+            Icons.event_seat,
+            size: 12,
+            color: _seatSelections[index] ? Colors.green : Colors.grey,
           );
         },
       ),

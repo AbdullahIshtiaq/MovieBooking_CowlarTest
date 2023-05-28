@@ -1,21 +1,16 @@
 import 'package:cowlar_entry_test_app/constants.dart';
 import 'package:cowlar_entry_test_app/main.dart';
-import 'package:cowlar_entry_test_app/screens/movie_screen.dart';
+import 'package:cowlar_entry_test_app/presentation/movie_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SeatSelectionScreen extends StatefulWidget {
+class SeatSelectionScreen extends StatelessWidget {
   const SeatSelectionScreen(
       {super.key, required this.movieName, required this.theaterName});
 
   final String movieName;
   final String theaterName;
 
-  @override
-  State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
-}
-
-class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +40,14 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                       child: Column(
                         children: [
                           Text(
-                            widget.movieName,
+                            movieName,
                             style: const TextStyle(
                               fontSize: 20.0,
                             ),
                           ),
                           const SizedBox(height: 5.0),
                           Text(
-                            widget.theaterName,
+                            theaterName,
                             style: const TextStyle(
                               fontSize: 16.0,
                               color: blue,
@@ -217,8 +212,8 @@ class CinemaSeatsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 30),
                   child: Text("Sreen"),
                 )),
-            const Padding(
-              padding: EdgeInsets.only(top: 50),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
               child: SeatView(seatCount: 100),
             ),
             Positioned(
@@ -256,16 +251,11 @@ class CinemaSeatsScreen extends StatelessWidget {
   }
 }
 
-class SeatView extends StatefulWidget {
+class SeatView extends StatelessWidget {
   final int seatCount;
 
-  const SeatView({super.key, required this.seatCount});
+  SeatView({super.key, required this.seatCount});
 
-  @override
-  _SeatViewState createState() => _SeatViewState();
-}
-
-class _SeatViewState extends State<SeatView> {
   final List<bool> _seatSelections = List.generate(100, (index) => false);
 
   @override
@@ -276,19 +266,12 @@ class _SeatViewState extends State<SeatView> {
         childAspectRatio: 10,
         mainAxisSpacing: 20.0,
       ),
-      itemCount: widget.seatCount,
+      itemCount: seatCount,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _seatSelections[index] = !_seatSelections[index];
-            });
-          },
-          child: Icon(
-            Icons.event_seat,
-            size: 13,
-            color: _seatSelections[index] ? Colors.green : Colors.grey,
-          ),
+        return Icon(
+          Icons.event_seat,
+          size: 13,
+          color: _seatSelections[index] ? Colors.green : Colors.grey,
         );
       },
     );
